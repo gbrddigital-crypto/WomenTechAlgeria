@@ -34,6 +34,10 @@ nav{position:sticky;top:0;z-index:999;background:rgba(10,10,10,.92);backdrop-fil
 .nav-links a{font-size:.78rem;font-weight:400;color:var(--gray);text-decoration:none;letter-spacing:.05em;text-transform:uppercase;transition:color .2s}
 .nav-links a:hover{color:var(--gold)}
 .nav-cta{font-size:.78rem;font-weight:500;color:#000;background:var(--gold);padding:.45rem 1.2rem;border-radius:6px;text-decoration:none;transition:background .2s;letter-spacing:.03em}
+.lang-switcher{display:flex;gap:.4rem;align-items:center;margin-right:.75rem}
+.lang-btn{font-size:.72rem;font-weight:500;padding:.3rem .65rem;border-radius:5px;border:1px solid rgba(201,168,76,.3);background:transparent;color:var(--gray);cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.lang-btn:hover{color:var(--gold);border-color:var(--gold)}
+.lang-btn.active{color:#000;background:var(--gold);border-color:var(--gold)}
 .nav-cta:hover{background:var(--gold-light)}
 
 /* HERO */
@@ -172,12 +176,16 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     <div class="nav-brand">WomenTech <span>Algeria</span></div>
   </div>
   <ul class="nav-links">
-    <li><a href="#pillars">La communauté</a></li>
-    <li><a href="#niveaux">Niveaux</a></li>
-    <li><a href="#pont">Le pont</a></li>
-    <li><a href="#summit">Summit</a></li>
+    <li><a href="#pillars" data-key="nav1">La communauté</a></li>
+    <li><a href="#niveaux" data-key="nav2">Niveaux</a></li>
+    <li><a href="#pont" data-key="nav3">Le pont</a></li>
+    <li><a href="#summit" data-key="nav4">Summit</a></li>
   </ul>
-  <a href="#rejoindre" class="nav-cta">Rejoindre</a>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+  <a href="#rejoindre" class="nav-cta" data-key="nav_cta">Rejoindre</a>
 </nav>
 
 <!-- HERO -->
@@ -185,11 +193,11 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   <div class="hero-bg"></div>
   <div class="hero-lines"></div>
   <div class="hero-badge"><span class="badge-dot"></span>Diaspora Mondiale · Algérie · Tech · Investissement</div>
-  <h1>Le réseau des<br>femmes algériennes<br><em>dans la tech</em></h1>
+  <h1 data-key="hero_title">Le réseau des<br>femmes algériennes<br><em>dans la tech</em></h1>
   <p class="hero-sub">Un pont entre la diaspora algérienne dans le monde et les femmes tech sur le terrain en Algérie. Formation, partenariats, investissement — ensemble pour rayonner à l'échelle mondiale.</p>
   <div class="hero-ctas">
-    <a href="#rejoindre" class="btn-gold">Rejoindre la communauté</a>
-    <a href="#pillars" class="btn-outline">Découvrir le projet</a>
+    <a href="#rejoindre" class="btn-gold" data-key="btn1">Rejoindre la communauté</a>
+    <a href="#pillars" class="btn-outline" data-key="btn2">Découvrir le projet</a>
   </div>
   <hr class="hero-divider">
   <div class="hero-rives">
@@ -386,7 +394,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     <h2 class="cta-title">Prête à faire partie<br>de <em>l'histoire</em> ?</h2>
     <p class="cta-sub">WomenTech Algeria se construit maintenant. Rejoignez les premières femmes fondatrices de la communauté et participez à la naissance d'un mouvement.</p>
     <div class="cta-btns">
-      <a href="mailto:gbrddigital@gmail.com" class="btn-gold">Rejoindre la communauté</a>
+      <a href="mailto:gbrddigital@gmail.com" class="btn-gold" data-key="btn1">Rejoindre la communauté</a>
       <a href="https://calendly.com/gbrddigital" target="_blank" class="btn-outline">Prendre contact</a>
     </div>
   </div>
@@ -398,5 +406,54 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   <div class="foot-by">Une initiative <a href="#">Digit@lIA · by GBRD</a></div>
 </footer>
 
+<script>
+const T = {
+  fr: {
+    nav_cta: "Rejoindre",
+    nav1: "La communauté",
+    nav2: "Niveaux",
+    nav3: "Le pont",
+    nav4: "Summit",
+    badge: "DIASPORA MONDIALE · ALGÉRIE · TECH · INVESTISSEMENT",
+    hero_title: "Le réseau des<br>femmes algériennes<br><em>dans la tech</em>",
+    hero_sub: "Un pont entre la diaspora algérienne dans le monde et les femmes tech sur le terrain en Algérie. Formation, partenariats, investissement — ensemble pour rayonner à l'échelle mondiale.",
+    btn1: "Rejoindre la communauté",
+    btn2: "Découvrir le projet"
+  },
+  en: {
+    nav_cta: "Join",
+    nav1: "The community",
+    nav2: "Levels",
+    nav3: "The bridge",
+    nav4: "Summit",
+    badge: "GLOBAL DIASPORA · ALGERIA · TECH · INVESTMENT",
+    hero_title: "The network of Algerian women<br><em>in tech</em>",
+    hero_sub: "A bridge between the Algerian diaspora worldwide and women in tech on the ground in Algeria. Training, partnerships, investment — together to shine on the world stage.",
+    btn1: "Join the community",
+    btn2: "Discover the project"
+  }
+};
+
+function setLang(lang) {
+  if (!T[lang]) return;
+  const t = T[lang];
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.dataset.key;
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.getAttribute('onclick') === "setLang('" + lang + "')") {
+      btn.classList.add('active');
+    }
+  });
+  document.documentElement.lang = lang;
+  localStorage.setItem('wta_lang', lang);
+}
+
+window.addEventListener('load', function() {
+  setLang(localStorage.getItem('wta_lang') || 'fr');
+});
+</script>
 </body>
 </html>
